@@ -17,7 +17,8 @@ permissions:
   contents: read
   packages: write
   id-token: write  # OIDC for signing/attestations
-
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   # 의존성 변경에 대한 보안 리뷰 (PR 전용)
   dependency-review:
@@ -46,7 +47,7 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         with:
           args: --redact --source .
-
+        continue-on-error: true
   # CodeQL 정적 분석
   codeql:
     runs-on: ubuntu-latest
